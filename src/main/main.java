@@ -1,9 +1,10 @@
-package kitchenhub;
+package src.main;
 import java.util.Scanner;
 
 public class main{
     public static void main(String[] args) {
         System.out.println("Please Select a following menu");
+        System.out.println("-------------------------------");
         System.out.println("1. Enter Grocery List");
         System.out.println("4. Exit");
 

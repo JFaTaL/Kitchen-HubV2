@@ -1,4 +1,4 @@
-package kitchenhub;
+package src.main;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +25,11 @@ public class groceryList{
             groceryList.put(itemName,itemQnty);
 
             System.out.println("Grocery List:");
+            System.out.println("-----------------");
             for (Map.Entry<String, Integer> entry : groceryList.entrySet()) {
-                System.out.println(entry.getKey() + " - " + entry.getValue());
+                System.out.println("Item: " + entry.getKey());
+                System.out.println("Quantity: " + entry.getValue());
+                System.out.println("-----------------");
             }
         }
     }
