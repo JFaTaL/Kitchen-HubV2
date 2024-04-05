@@ -13,6 +13,7 @@ public class main {
         System.out.println("-------------------------------");
         System.out.println("1. Enter Your Shopping List");
         System.out.println("2. View Current Shopping List");
+        System.out.println("3. Edit Shopping List");
         System.out.println("4. Exit");
 
         Scanner scnr = new Scanner(System.in);
@@ -27,6 +28,10 @@ public class main {
 
             case 2:
                 shoppingList.viewList();
+                break;
+
+            case 3:
+                shoppingList.editList();
                 break;
 
             case 4:

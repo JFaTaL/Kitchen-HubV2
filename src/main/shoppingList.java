@@ -39,6 +39,45 @@ public class shoppingList {
         main.mainMenu();
     }
 
+    public static void editList(){
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("Please enter name of the item you wish to edit");
+        System.out.println("-----------------");
+        getCurrentList();
+        String itemName = scnr.nextLine();
+
+        if(!getCurrentList().containsKey(itemName)){
+            System.out.println("Invalid Name");
+            return;
+        }
+
+        System.out.println("1. Edit Name");
+        System.out.println("Edit Quantity");
+        System.out.println("3. Delete");
+        int userChoice = scnr.nextInt();
+        scnr.nextLine();
+        
+        switch(userChoice){
+            case 1:
+                System.out.println("Enter new Item Name");
+                String newName = scnr.nextLine();
+                getCurrentList().put(newName, getCurrentList().remove(itemName));
+                break;
+
+            case 2:
+                System.out.println("Enter new Quantity");
+                int newQuantity = scnr.nextInt();
+                scnr.nextLine();
+                getCurrentList().put(itemName, newQuantity);
+                break;
+            
+            case 3:
+                getCurrentList().remove(itemName);
+        }
+        main.mainMenu();
+        
+    }
+
     public static Map<String,Integer> getCurrentList() {
         return currentList;
     }
