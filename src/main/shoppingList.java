@@ -13,7 +13,7 @@ public class shoppingList {
 
         while(true) {
             System.out.println("Please Enter Item Name or 0 to exit.");
-            itemName = scnr.nextLine();
+            itemName = scnr.nextLine().toLowerCase();
 
             if(itemName.equals("0")) {
                 main.mainMenu();
@@ -36,23 +36,23 @@ public class shoppingList {
             System.out.println("Quantity: " + entry.getValue());
             System.out.println("-----------------");
         }
-        main.mainMenu();
+
     }
 
     public static void editList(){
         Scanner scnr = new Scanner(System.in);
+        viewList();
         System.out.println("Please enter name of the item you wish to edit");
         System.out.println("-----------------");
-        getCurrentList();
-        String itemName = scnr.nextLine();
+        String itemName = scnr.nextLine().toLowerCase();
 
         if(!getCurrentList().containsKey(itemName)){
-            System.out.println("Invalid Name");
-            return;
+            System.out.println("Invalid Name, Try again");
+            editList();
         }
 
         System.out.println("1. Edit Name");
-        System.out.println("Edit Quantity");
+        System.out.println("2. Edit Quantity");
         System.out.println("3. Delete");
         int userChoice = scnr.nextInt();
         scnr.nextLine();
@@ -60,7 +60,7 @@ public class shoppingList {
         switch(userChoice){
             case 1:
                 System.out.println("Enter new Item Name");
-                String newName = scnr.nextLine();
+                String newName = scnr.nextLine().toLowerCase();
                 getCurrentList().put(newName, getCurrentList().remove(itemName));
                 break;
 

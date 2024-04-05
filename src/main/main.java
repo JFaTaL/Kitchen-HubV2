@@ -28,7 +28,7 @@ public class main {
 
             case 2:
                 shoppingList.viewList();
-                break;
+                mainMenu();
 
             case 3:
                 shoppingList.editList();
