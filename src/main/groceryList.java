@@ -15,6 +15,7 @@ public class groceryList{
             itemName = scnr.nextLine();
 
             if(itemName.equals("0")){
+                main.mainMenu();
                 break;
             }
 

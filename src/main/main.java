@@ -1,11 +1,15 @@
 package src.main;
 import java.util.Scanner;
 
-public class main{
+public class main {
     public static void main(String[] args) {
-        System.out.println("Please Select a following menu");
+        mainMenu();
+    }
+
+    public static void mainMenu() {
+        System.out.println("Welcome to KitchenHub");
         System.out.println("-------------------------------");
-        System.out.println("1. Enter Grocery List");
+        System.out.println("1. Enter Your Grocery List");
         System.out.println("4. Exit");
 
         Scanner scnr = new Scanner(System.in);
@@ -18,12 +22,12 @@ public class main{
                 break;
 
             case 4:
+                System.out.println("Good-Bye!");
                 break;
 
             default:
                 System.out.println("Invalid Input");
                 break;
-
         }
     }
 }
