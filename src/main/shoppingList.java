@@ -2,6 +2,7 @@ package src.main;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class shoppingList {
     private static Map<String,Integer> currentList = new HashMap<>();
@@ -76,6 +77,43 @@ public class shoppingList {
         }
         main.mainMenu();
         
+    }
+
+    public static void confirmList() {
+        Scanner scnr = new Scanner(System.in);
+        Iterator<Map.Entry<String, Integer>> iterator = getCurrentList().entrySet().iterator();
+        
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> entry = iterator.next();
+            String itemName = entry.getKey();
+            
+            System.out.println("Did you purchase this item? (Y/N)");
+            System.out.println("Item: " + itemName);
+            String confirmItemName = scnr.nextLine().toLowerCase();
+    
+            if (!confirmItemName.equals("y")) {
+                iterator.remove();
+                System.out.println("Item: " + itemName + " - Deleted");
+                continue;
+            }
+    
+            System.out.println("Correct Quantity? (Y/N)");
+            System.out.println("Quantity: " + entry.getValue());
+            String confirmQuantity = scnr.nextLine().toLowerCase();
+            
+            if (!confirmQuantity.equals("y")) {
+                System.out.println("Please enter the correct Quantity");
+                int updatedQuantity = scnr.nextInt();
+                scnr.nextLine();
+                entry.setValue(updatedQuantity); // Update the quantity for the current entry
+                System.out.println(itemName + " Quantity updated: " + updatedQuantity);
+            }
+    
+            System.out.println(itemName + " Confirmed & Added to Kitchen");
+            iterator.remove(); // Remove the item after confirmation
+        }
+        
+        main.mainMenu();
     }
 
     public static Map<String,Integer> getCurrentList() {

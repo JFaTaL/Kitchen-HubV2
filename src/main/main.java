@@ -14,7 +14,8 @@ public class main {
         System.out.println("1. Enter Your Shopping List");
         System.out.println("2. View Current Shopping List");
         System.out.println("3. Edit Shopping List");
-        System.out.println("4. Exit");
+        System.out.println("4. Confirm Your Shopping Purchases");
+        System.out.println("5. Exit");
 
         Scanner scnr = new Scanner(System.in);
         int choice = scnr.nextInt();
@@ -35,6 +36,10 @@ public class main {
                 break;
 
             case 4:
+                shoppingList.confirmList();
+                mainMenu();
+
+            case 5:
                 System.out.println("Good-Bye!");
                 break;
 
