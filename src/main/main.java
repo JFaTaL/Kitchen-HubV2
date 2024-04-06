@@ -15,7 +15,8 @@ public class main {
         System.out.println("2. View Current Shopping List");
         System.out.println("3. Edit Shopping List");
         System.out.println("4. Confirm Your Shopping Purchases");
-        System.out.println("5. Exit");
+        System.out.println("5. View Kitchen");
+        System.out.println("6. Exit");
 
         Scanner scnr = new Scanner(System.in);
         int choice = scnr.nextInt();
@@ -41,6 +42,11 @@ public class main {
                 break;
 
             case 5:
+                kitchenInventory.viewKitchen();
+                mainMenu();
+                break;
+
+            case 6:
                 System.out.println("Good-Bye!");
                 break;
 

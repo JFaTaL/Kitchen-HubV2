@@ -86,6 +86,7 @@ public class shoppingList {
         while (iterator.hasNext()) {
             Map.Entry<String, Integer> entry = iterator.next();
             String itemName = entry.getKey();
+            int itemQuantity = entry.getValue();
             
             System.out.println("Did you purchase this item? (Y/N)");
             System.out.println("Item: " + itemName);
@@ -98,7 +99,7 @@ public class shoppingList {
             }
     
             System.out.println("Correct Quantity? (Y/N)");
-            System.out.println("Quantity: " + entry.getValue());
+            System.out.println("Quantity: " + itemQuantity);
             String confirmQuantity = scnr.nextLine().toLowerCase();
             
             if (!confirmQuantity.equals("y")) {
@@ -107,8 +108,10 @@ public class shoppingList {
                 scnr.nextLine();
                 entry.setValue(updatedQuantity); // Update the quantity for the current entry
                 System.out.println(itemName + " Quantity updated: " + updatedQuantity);
+                itemQuantity = updatedQuantity;
             }
-    
+            
+            kitchenInventory.createKitchen(itemName, itemQuantity);
             System.out.println(itemName + " Confirmed & Added to Kitchen");
             iterator.remove(); // Remove the item after confirmation
         }
