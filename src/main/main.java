@@ -30,6 +30,7 @@ public class main {
             case 2:
                 shoppingList.viewList();
                 mainMenu();
+                break;
 
             case 3:
                 shoppingList.editList();
@@ -37,7 +38,7 @@ public class main {
 
             case 4:
                 shoppingList.confirmList();
-                mainMenu();
+                break;
 
             case 5:
                 System.out.println("Good-Bye!");
