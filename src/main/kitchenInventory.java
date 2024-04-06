@@ -40,43 +40,65 @@ public class kitchenInventory {
         main.kitchenMenu();
     }
 
-    public static void editKitchenItem(){
-        /*Scanner scnr = new Scanner(System.in);
+    public static void editKitchenItem() {
+        Scanner scnr = new Scanner(System.in);
         viewKitchen();
         System.out.println("Please enter name of the item you wish to edit");
         System.out.println("-----------------");
         String itemName = scnr.nextLine().toLowerCase();
-
-        if(!getKitchenList().containsKey(itemName)){
+        ItemDetails itemDetails = getKitchenList().get(itemName);
+    
+        if (!getKitchenList().containsKey(itemName)) {
             System.out.println("Invalid Name, Try again");
             editKitchenItem();
+            return;
         }
-
+    
         System.out.println("1. Edit Name");
         System.out.println("2. Edit Quantity");
-        System.out.println("3. Delete");
+        System.out.println("3. Edit Expiration Date");
+        System.out.println("4. Delete");
         int userChoice = scnr.nextInt();
         scnr.nextLine();
-        
-        switch(userChoice){
+    
+        switch (userChoice) {
             case 1:
-                System.out.println("Enter new Item Name");
-                String newName = scnr.nextLine().toLowerCase();
-                getKitchenList().put(newName, getKitchenList().remove(itemName));
+                editItemName(itemName);
                 break;
-
             case 2:
-                System.out.println("Enter new Quantity");
-                int newQuantity = scnr.nextInt();
-                scnr.nextLine();
-                getKitchenList().put(itemName, itemDetails.setq);
+                editItemQuantity(itemDetails);
                 break;
-            
             case 3:
+                editItemExpirationDate(itemDetails);
+                break;
+            case 4:
                 getKitchenList().remove(itemName);
+                break;
         }
-        main.mainMenu(); */
-        
+    
+        main.kitchenMenu();
+    }
+    
+    public static void editItemName(String itemName) {
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("Enter new Item Name");
+        String newName = scnr.nextLine().toLowerCase();
+        getKitchenList().put(newName, getKitchenList().remove(itemName));
+    }
+    
+    public static void editItemQuantity(ItemDetails itemDetails) {
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("Enter new Quantity");
+        int newQuantity = scnr.nextInt();
+        scnr.nextLine();
+        itemDetails.setQuantity(newQuantity);
+    }
+    
+    public static void editItemExpirationDate(ItemDetails itemDetails) {
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("Enter new Expiration Date (MM-DD-YYYY)");
+        String newExpirationDate = scnr.nextLine();
+        itemDetails.setExpirationDate(newExpirationDate);
     }
 
     public static void printItemDetails(String itemName, ItemDetails itemDetails) {
