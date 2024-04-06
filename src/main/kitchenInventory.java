@@ -18,6 +18,10 @@ public class kitchenInventory {
             System.out.println("---------------------------");
         }
     }
+
+    public static void editKitchenItem(){
+
+    }
     
     public static Map<String,Integer> getKitchenList() {
         return kitchenList;
