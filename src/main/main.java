@@ -72,10 +72,11 @@ public class main {
             
             case 1:
                 kitchenInventory.viewKitchen();
-                mainMenu();
+                kitchenMenu();
                 break;
 
             case 2:
+                kitchenInventory.addExpiration();
                 break;
 
             case 3:

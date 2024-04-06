@@ -111,7 +111,7 @@ public class shoppingList {
                 itemQuantity = updatedQuantity;
             }
             
-            kitchenInventory.createKitchen(itemName, itemQuantity);
+            kitchenInventory.createKitchen(itemName, itemQuantity, null);
             System.out.println(itemName + " Confirmed & Added to Kitchen");
             iterator.remove(); // Remove the item after confirmation
         }
