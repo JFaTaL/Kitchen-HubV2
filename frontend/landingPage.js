@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff', // Set background color to white
   },
   logo: {
-    width: 500, // Adjust logo size as needed
-    height: 500, // Adjust logo size as needed
+    width: 500, 
+    height: 500, 
     resizeMode: 'contain',
-    marginBottom: 20, // Add space between logo and loading indicator
+    marginBottom: 20, 
   },
 });
 
