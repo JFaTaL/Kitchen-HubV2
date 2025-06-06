@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Image, Text } from 'react-native';
+import { Platform } from 'react-native';
+
+
 
 // Component for the loading screen
 const LoadingScreen = () => {
@@ -23,22 +26,26 @@ const LandingPage = ({ navigation }) => {
 
   // Effect to simulate loading and navigate to ShoppingList after 5 seconds
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false); // Set loading to false after 5 seconds
-      navigation.navigate('MainTabs', { screen: 'ShoppingList' }); // Navigate to MainTabs with ShoppingList
-    }, 5000); // 5000 milliseconds = 5 seconds
+  const timer = setTimeout(() => {
+    setLoading(false);
+    if (Platform.OS === 'web') {
+      navigation.navigate('MainTabs', { screen: 'ShoppingList' });
+    } else {
+      navigation.replace('MainTabs', { screen: 'ShoppingList' });
+    }
+  }, 5000);
 
-    // Clean up timer
-    return () => clearTimeout(timer);
-  }, [navigation]);
+  return () => clearTimeout(timer);
+}, [navigation]);
 
   // Render loading screen while loading
   if (loading) {
     return <LoadingScreen />;
   }
 
-  // If loading is done, do nothing
-  return null;
+// Return null because navigation.replace takes over
+return null;
+  
 };
 
 // Styles

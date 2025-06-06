@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, Modal, Image } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 // Define departments
 const departments = [
@@ -280,288 +282,298 @@ const ShoppingList = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.searchContainer} onPress={toggleModal}>
-        <TextInput
-          style={styles.titleText}
-          value={listTitle}
-          onChangeText={text => setListTitle(text)}
-          placeholder="Enter list title..."
-          placeholderTextColor="#ffffff"
-          maxLength={20}
-        />
-        <Text style={styles.searchText}>Search item...</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.toggleButtonContainer, toggleButtonImageStyle]}
-        onPress={() => setShowCategories(!showCategories)}
-      >
-        <Image
-          source={hiddenIcon}
-          style={[styles.toggleIconStyles, styles.toggleIcon]}
-          resizeMode="contain"
-        />
-    </TouchableOpacity>
-      {shoppingList.length === 0 && manualItems.length === 0 ? (
-        <View style={styles.emptyListContainer}>
-          <Image source={emptyListImage} style={styles.emptyListImage} />
-          <Text style={styles.emptyListTextBig}>Your List is Empty!</Text>
-          <Text style={styles.emptyListText}>Start Adding items to your list</Text>
-        </View>
-      ) : (
-        <FlatList
-    data={Object.entries(groupedItems)}
-    renderItem={({ item }) => {
-      const categoryName = item[0];
-      const items = item[1];
-      const uncheckedItems = items.filter(item => !item.isChecked);
+        <TouchableOpacity style={styles.titleContainer} onPress={toggleModal}>
+          <TextInput
+            style={styles.titleText}
+            value={listTitle}
+            onChangeText={text => setListTitle(text)}
+            placeholder="Enter list title..."
+            placeholderTextColor="#ffffff"
+            maxLength={20}
+          />
+        </TouchableOpacity>
 
-      // Only show the category if it has unchecked items or if showCategories is true
-      if (showCategories || uncheckedItems.length > 0) {
-        return (
-          <View>
-            <Text style={[styles.departmentTitle, { color: departments.find(d => d.name === categoryName)?.color }]}>
-              {categoryName}
-            </Text>
-            {items.map((listItem, index) => (
-              showCategories || !listItem.isChecked ? // Only show unchecked items when showCategories is false
-              <TouchableOpacity
-                key={index}
-                style={styles.listItem}
-                onPress={() => handleEditItem(listItem)}
-              >
-                <Text
-                  style={[
-                    styles.itemName,
-                    { textDecorationLine: listItem.isChecked ? 'line-through' : 'none' },
-                    { flex: 1 }
-                  ]}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {listItem.name}
-                </Text>
-                <Text style={styles.itemQuantity}>{listItem.quantity}</Text>
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchInputContainer} onPress={toggleModal}>
+            <Text style={styles.searchText}>Search item...</Text>
+            <TouchableOpacity onPress={toggleFilter}>
+              <Image source={filterIcon} style={styles.filterIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={toggleMenu}>
+              <Image source={menuIcon} style={styles.menuIcon} />
+            </TouchableOpacity>
+          </TouchableOpacity>
+
+          {/* <TouchableOpacity style={styles.filterButton} onPress={toggleFilter}>
+            <Image source={filterIcon} style={styles.filterIcon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+            <Image source={menuIcon} style={styles.menuIcon} />
+          </TouchableOpacity>  */}
+        
+        </View>
+
+        <TouchableOpacity
+          style={[styles.toggleButtonContainer, toggleButtonImageStyle]}
+          onPress={() => setShowCategories(!showCategories)}
+        >
+          <Image
+            source={hiddenIcon}
+            style={[styles.toggleIconStyles, styles.toggleIcon]}
+            resizeMode="contain"
+          />
+      </TouchableOpacity>
+        {shoppingList.length === 0 && manualItems.length === 0 ? (
+          <View style={styles.emptyListContainer}>
+            <Image source={emptyListImage} style={styles.emptyListImage} />
+            <Text style={styles.emptyListTextBig}>Your List is Empty!</Text>
+            <Text style={styles.emptyListText}>Start Adding items to your list</Text>
+          </View>
+        ) : (
+          <FlatList
+      data={Object.entries(groupedItems)}
+      renderItem={({ item }) => {
+        const categoryName = item[0];
+        const items = item[1];
+        const uncheckedItems = items.filter(item => !item.isChecked);
+
+        // Only show the category if it has unchecked items or if showCategories is true
+        if (showCategories || uncheckedItems.length > 0) {
+          return (
+            <View>
+              <Text style={[styles.departmentTitle, { color: departments.find(d => d.name === categoryName)?.color }]}>
+                {categoryName}
+              </Text>
+              {items.map((listItem, index) => (
+                showCategories || !listItem.isChecked ? // Only show unchecked items when showCategories is false
                 <TouchableOpacity
-                  style={[
-                    styles.checkbox,
-                    { backgroundColor: listItem.isChecked ? '#ffffff' : 'transparent' }
-                  ]}
-                  onPress={() => handleCheckboxToggle(listItem)}
+                  key={index}
+                  style={styles.listItem}
+                  onPress={() => handleEditItem(listItem)}
                 >
-                  {listItem.isChecked && <Image source={checkMarkIcon} style={styles.checkmarkIcon} />}
+                  <Text
+                    style={[
+                      styles.itemName,
+                      { textDecorationLine: listItem.isChecked ? 'line-through' : 'none' },
+                      { flex: 1 }
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {listItem.name}
+                  </Text>
+                  <Text style={styles.itemQuantity}>{listItem.quantity}</Text>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkbox,
+                      { backgroundColor: listItem.isChecked ? '#ffffff' : 'transparent' }
+                    ]}
+                    onPress={() => handleCheckboxToggle(listItem)}
+                  >
+                    {listItem.isChecked && <Image source={checkMarkIcon} style={styles.checkmarkIcon} />}
+                  </TouchableOpacity>
                 </TouchableOpacity>
-              </TouchableOpacity>
-              : null
-            ))}
-          </View>
-        );
-      } else {
-        return null; // Don't render the category if it's empty and showCategories is false
-      }
-    }}
-    keyExtractor={(item, index) => index.toString()}
-    contentContainerStyle={styles.listContainer}
-        />
-      )}
+                : null
+              ))}
+            </View>
+          );
+        } else {
+          return null; // Don't render the category if it's empty and showCategories is false
+        }
+      }}
+      keyExtractor={(item, index) => index.toString()}
+      contentContainerStyle={styles.listContainer}
+          />
+        )}
 
-      <View style={styles.bottomContainer}>
-        <CounterBox totalItems={shoppingList.length + manualItems.length} checkedItems={checkedItems} />
-      </View>
+        <View style={styles.bottomContainer}>
+          <CounterBox totalItems={shoppingList.length + manualItems.length} checkedItems={checkedItems} />
+        </View>
 
-      <Modal
-        visible={isEditModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={toggleEditModal}
-      >
-        <TouchableOpacity
-          style={styles.modalBackground}
-          onPress={toggleEditModal}
-          activeOpacity={1}
+        <Modal
+          visible={isEditModalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={toggleEditModal}
         >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={itemName}
-                onChangeText={text => setItemName(text)}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Quantity"
-                value={itemQuantity}
-                onChangeText={text => setItemQuantity(text)}
-                keyboardType="numeric"
-              />
-              <TouchableOpacity style={styles.input} onPress={handleDepartmentPress}>
-                <Text style={styles.departmentText}>
-                  {itemDepartment ? itemDepartment : 'Select Department'}
-                </Text>
-              </TouchableOpacity>
-              {showDepartments && departments.length > 0 && (
-                <FlatList
-                  data={departments}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={styles.departmentItem}
-                      onPress={() => handleEditDepartmentSelect(item)}
-                    >
-                      <Text>{item.name}</Text>
-                    </TouchableOpacity>
-                  )}
-                  keyExtractor={(item, index) => index.toString()}
-                  contentContainerStyle={styles.departmentList}
-                />
-              )}
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={updateItem}>
-                <Text style={styles.buttonText}>Update Item</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={toggleEditModal}>
-                <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={toggleModal}
-      >
-        <TouchableOpacity
-          style={styles.modalBackground}
-          onPress={toggleModal}
-          activeOpacity={1}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={itemName}
-                onChangeText={text => setItemName(text)}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Quantity"
-                value={itemQuantity}
-                onChangeText={text => setItemQuantity(text)}
-                keyboardType="numeric"
-              />
-              <TouchableOpacity style={styles.input} onPress={handleDepartmentPress}>
-                <Text style={styles.departmentText}>
-                  {itemDepartment ? itemDepartment : 'Select Department'}
-                </Text>
-              </TouchableOpacity>
-              {showDepartments && departments.length > 0 && (
-                <FlatList
-                  data={departments}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={styles.departmentItem}
-                      onPress={() => handleEditDepartmentSelect(item)}
-                    >
-                      <Text>{item.name}</Text>
-                    </TouchableOpacity>
-                  )}
-                  keyExtractor={(item, index) => index.toString()}
-                  contentContainerStyle={styles.departmentList}
-                />
-              )}
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={addItem}>
-                <Text style={styles.buttonText}>Add Item</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={toggleModal}>
-                <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
-      {/* Kitchen Move Menu */}
-    <TouchableOpacity style={styles.menuItem} onPress={toggleKitchenMoveMenu}>
-      <Image source={checkMarkIcon} style={styles.kitchenCheckIcon} />
-    </TouchableOpacity>
-    <Modal visible={isKitchenMoveMenuOpen} transparent={true} >
-        <View style={styles.kitchenMoveContainer}>
-          <View style={styles.kitchenMoveBox}>
-          <Text style={styles.kitchenMoveTitleBold}>Done Shopping?</Text>
-            <Text style={styles.kitchenMoveTitle}>Are you sure you want to move all checked items to the kitchen?</Text>
-            <View style={styles.kitchenMoveButtonsContainer}>
-              <TouchableOpacity style={[styles.kitchenMoveButton, styles.kitchenMoveConfirmButton]} onPress={handleMoveToKitchen}>
-                <Text style={styles.kitchenMoveButtonText}>Yes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.kitchenMoveButton, styles.kitchenMoveCancelButton]} onPress={handleCancelKitchenMoveMenu}>
-                <Text style={styles.kitchenMoveButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              </View>
-          </View>
-        </View>
-      </Modal>
-
-      {/* Confirm Modal */}
-      <Modal visible={isConfirmModalOpen} transparent={true}>
-        <View style={styles.confirmModalContainer}>
-          <Text style={styles.confirmModalText}>Your action has been confirmed!</Text>
-        </View>
-      </Modal>
-
-      {/* Menu Button */}
-      <TouchableOpacity
-        style={styles.menuButton}
-        onPress={toggleMenu}
-      >
-        <Image source={menuIcon} style={styles.menuIcon} />
-      </TouchableOpacity>
-
-      {/* Menu */}
-      {isMenuOpen && (
-        <View style={styles.menuContainer}>
-          <TouchableOpacity style={styles.menuItem} onPress={handleCheckAll}>
-            <Text style={styles.menuItemText}>Check All</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={handleUncheckAll}>
-            <Text style={styles.menuItemText}>Uncheck All</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={handleDeleteChecked}>
-            <Text style={styles.menuItemText}>Delete Checked</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={handleDeleteList}>
-            <Text style={styles.menuItemText}>Delete List</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-       {/* Filter Button */}
-       <TouchableOpacity
-        style={styles.filterButton}
-        onPress={toggleFilter}
-      >
-        <Image source={filterIcon} style={styles.filterIcon} />
-      </TouchableOpacity>
-
-      {/* Filter menu */}
-      {isFilterOpen && (
-      <View style={styles.filterContainer}>
-        {filterOptions.map(option => (
           <TouchableOpacity
-            key={option.id}
-            style={styles.filterItem}
-            onPress={() => handleApplyFilter(option)}
+            style={styles.modalBackground}
+            onPress={toggleEditModal}
+            activeOpacity={1}
           >
-            <Text style={styles.filterText}>{option.name}</Text>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Name"
+                  placeholderTextColor= "#000000"
+                  value={itemName}
+                  onChangeText={text => setItemName(text)}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Quantity"
+                  placeholderTextColor= "#000000"
+                  value={itemQuantity}
+                  onChangeText={text => setItemQuantity(text)}
+                  keyboardType="numeric"
+                />
+                <TouchableOpacity style={styles.input} onPress={handleDepartmentPress}>
+                  <Text style={styles.departmentText}>
+                    {itemDepartment ? itemDepartment : 'Select Department'}
+                  </Text>
+                </TouchableOpacity>
+                {showDepartments && departments.length > 0 && (
+                  <FlatList
+                    data={departments}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        style={styles.departmentItem}
+                        onPress={() => handleEditDepartmentSelect(item)}
+                      >
+                        <Text>{item.name}</Text>
+                      </TouchableOpacity>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.departmentList}
+                  />
+                )}
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={updateItem}>
+                  <Text style={styles.buttonText}>Update Item</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={toggleEditModal}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </TouchableOpacity>
-        ))}
-      </View>
-    )}
+        </Modal>
+
+        <Modal
+          visible={isModalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={toggleModal}
+        >
+          <TouchableOpacity
+            style={styles.modalBackground}
+            onPress={toggleModal}
+            activeOpacity={1}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Name"
+                  placeholderTextColor= "#000000"
+                  value={itemName}
+                  onChangeText={text => setItemName(text)}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Quantity"
+                  placeholderTextColor= "#000000"
+                  value={itemQuantity}
+                  onChangeText={text => setItemQuantity(text)}
+                  keyboardType="numeric"
+                />
+                <TouchableOpacity style={styles.input} onPress={handleDepartmentPress}>
+                  <Text style={styles.departmentText}>
+                    {itemDepartment ? itemDepartment : 'Select Department'}
+                  </Text>
+                </TouchableOpacity>
+                {showDepartments && departments.length > 0 && (
+                  <FlatList
+                    data={departments}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        style={styles.departmentItem}
+                        onPress={() => handleEditDepartmentSelect(item)}
+                      >
+                        <Text>{item.name}</Text>
+                      </TouchableOpacity>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.departmentList}
+                  />
+                )}
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={addItem}>
+                  <Text style={styles.buttonText}>Add Item</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={toggleModal}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
+        {/* Kitchen Move Menu */}
+      <TouchableOpacity style={styles.menuItem} onPress={toggleKitchenMoveMenu}>
+        <Image source={checkMarkIcon} style={styles.kitchenCheckIcon} />
+      </TouchableOpacity>
+      <Modal visible={isKitchenMoveMenuOpen} transparent={true} >
+          <View style={styles.kitchenMoveContainer}>
+            <View style={styles.kitchenMoveBox}>
+            <Text style={styles.kitchenMoveTitleBold}>Done Shopping?</Text>
+              <Text style={styles.kitchenMoveTitle}>Are you sure you want to move all checked items to the kitchen?</Text>
+              <View style={styles.kitchenMoveButtonsContainer}>
+                <TouchableOpacity style={[styles.kitchenMoveButton, styles.kitchenMoveConfirmButton]} onPress={handleMoveToKitchen}>
+                  <Text style={styles.kitchenMoveButtonText}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.kitchenMoveButton, styles.kitchenMoveCancelButton]} onPress={handleCancelKitchenMoveMenu}>
+                  <Text style={styles.kitchenMoveButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Confirm Modal */}
+        <Modal visible={isConfirmModalOpen} transparent={true}>
+          <View style={styles.confirmModalContainer}>
+            <Text style={styles.confirmModalText}>Your action has been confirmed!</Text>
+          </View>
+        </Modal>
+
+        {/* Menu */}
+        {isMenuOpen && (
+          <View style={styles.menuContainer}>
+            <TouchableOpacity style={styles.menuItem} onPress={handleCheckAll}>
+              <Text style={styles.menuItemText}>Check All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem} onPress={handleUncheckAll}>
+              <Text style={styles.menuItemText}>Uncheck All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem} onPress={handleDeleteChecked}>
+              <Text style={styles.menuItemText}>Delete Checked</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem} onPress={handleDeleteList}>
+              <Text style={styles.menuItemText}>Delete List</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+
+        {/* Filter menu */}
+        {isFilterOpen && (
+        <View style={styles.filterContainer}>
+          {filterOptions.map(option => (
+            <TouchableOpacity
+              key={option.id}
+              style={styles.filterItem}
+              onPress={() => handleApplyFilter(option)}
+            >
+              <Text style={styles.filterText}>{option.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -570,19 +582,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  searchContainer: {
+  titleContainer: {
     backgroundColor: '#008080',
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingTop: 60,
+    paddingBottom: 10
+    },
+
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#008080',
+    paddingHorizontal: 10,
+    paddingBottom: 10
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    flex: 1, 
+    allItems: 'center',
+    marginRight: 10,
+    marginLeft: 10,
+    backgroundColor: 'white',
+    borderRadius: 1,
+    paddingHorizontal: 10,
   },
   searchText: {
+    flex: 1,
     color: 'black',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    backgroundColor: "white",
   },
   emptyListContainer: {
     flex: 1,
@@ -618,6 +647,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   input: {
+    color: '#000000',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
@@ -715,14 +745,8 @@ const styles = StyleSheet.create({
     height: 18,
   },
   menuButton: {
-    flex: 1,
-    position: 'absolute',
-    top: 58,
-    right: 10,
-    //backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 5,
-    zIndex: 1,
+    paddingHorizontal: 5,
+
   },
   menuItem: {
     paddingVertical: 5,
@@ -735,16 +759,12 @@ const styles = StyleSheet.create({
   menuIcon: {
     width: 24,
     height: 24,
+    marginVertical: 5,
+    marginHorizontal: 5
   },
   filterButton: {
-    flex: 1,
-    position: 'absolute',
-    top: 54,
-    right: 45,
-    //backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 5,
-    zIndex: 1,
+    paddingHorizontal: 5
+
   },
   filterItem: {
     paddingVertical: 5,
@@ -757,6 +777,8 @@ const styles = StyleSheet.create({
   filterIcon: {
     width: 24,
     height: 24,
+    marginVertical: 5,
+    marginHorizontal: 5
   },
   hiddenIcon: {
     flex: 1,
@@ -819,23 +841,18 @@ const styles = StyleSheet.create({
     opacity: 1, // Dimmed out when not active
   },
   toggleIcon: {
-    width: 30,
-    height: 30,
+    width: 45,
+    height: 45,
   },
   toggleButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignSelf: 'flex-end', 
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    left: 355,
+    paddingVertical: 2,
   },
   toggleIconStyles: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 2,
   },
   kitchenMoveBox: {
     backgroundColor: '#ffffff', // White background for the box

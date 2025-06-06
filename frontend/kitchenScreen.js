@@ -27,15 +27,15 @@ const KitchenScreen = ({ route }) => {
   const [showDepartments, setShowDepartments] = useState(false);
   const [shoppingList, setShoppingList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [manualItems, setManualItems] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [manualItems, setManualItems] = useState([]);
   const [kitchenTitle, setKitchenTitle] = useState('My First Kitchen');
   const [buttonStates, setButtonStates] = useState({}); // State to manage button states
   
   const navigation = useNavigation();
 
   useEffect(() => {
-    const kitchenItems = route.params?.items || [];
+    const kitchenItems = route.params?.items ?? [];
     if (kitchenItems.length > 0) {
       setShoppingList(kitchenItems);
     }
@@ -88,6 +88,7 @@ const KitchenScreen = ({ route }) => {
       const newItem = { id: Date.now(), name: itemName, department: itemDepartment, isChecked: false };
       setShoppingList([...shoppingList, newItem]);
       setItemName('');
+      setManualItems('');
       setItemQuantity('');
       setItemDepartment('');
       setIsModalVisible(false);
