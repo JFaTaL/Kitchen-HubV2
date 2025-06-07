@@ -37,9 +37,24 @@ const KitchenScreen = ({ route }) => {
   useEffect(() => {
     const kitchenItems = route.params?.items ?? [];
     if (kitchenItems.length > 0) {
-      setShoppingList(kitchenItems);
+      const initializedItems = kitchenItems.map(item => ({
+      ...item,
+      isChecked: false 
+    }));
+      setShoppingList(initializedItems);
     }
   }, [route.params]);
+
+  useEffect(() => {
+  if (shoppingList.length && Object.keys(buttonStates).length === 0) {
+    const initialStates = {};
+    shoppingList.forEach(item => {
+      initialStates[item.id] = 'full';
+    });
+    setButtonStates(initialStates);
+  }
+}, [shoppingList]);
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -150,8 +165,10 @@ const KitchenScreen = ({ route }) => {
 
 
   return (
+    
     <View style={styles.container}>
-      <TouchableOpacity style={styles.searchContainer} onPress={toggleModal}>
+
+      <TouchableOpacity style={styles.titleContainer} onPress={toggleModal}>
         <TextInput
           style={styles.titleText}
           value={kitchenTitle}
@@ -159,9 +176,15 @@ const KitchenScreen = ({ route }) => {
           placeholder="Enter list title..."
           placeholderTextColor="#ffffff"
           maxLength={20}
-        />
-        <Text style={styles.searchText}>Search item...</Text>
-      </TouchableOpacity>
+          />
+        </TouchableOpacity>
+
+      <View style={styles.searchContainer}>
+        <TouchableOpacity style={styles.searchInputContainer} onPress={toggleModal}>
+            <Text style={styles.searchText}>Search item...</Text>
+        </TouchableOpacity>
+      </View>
+
       {shoppingList.length === 0 && manualItems.length === 0 ? (
         <View style={styles.emptyListContainer}>
           <Image source={kitchenIcon} style={styles.emptyListImage} />
@@ -343,6 +366,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  titleContainer: {
+    backgroundColor: '#008080',
+    paddingHorizontal: 10,
+    paddingTop: 60,
+    paddingBottom: 10
+    },
   titleText: {
     textAlign: 'center',
     color: "white",
@@ -355,19 +384,29 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'center', // Make the container fit the width of the text
   },
-  searchContainer: {
+   searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#008080',
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingBottom: 10
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    flex: 1, 
+    allItems: 'center',
+    marginRight: 10,
+    marginLeft: 10,
+    backgroundColor: 'white',
+    borderRadius: 1,
+    paddingHorizontal: 10,
   },
   searchText: {
+    flex: 1,
     color: 'black',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    backgroundColor: "white",
   },
   emptyListContainer: {
     flex: 1,

@@ -136,6 +136,8 @@ const ShoppingList = ({route}) => {
     
     // Clear checked items
     setCheckedItems([]);
+
+    setIsKitchenMoveMenuOpen(false); // Close the menu
   };
   
 
@@ -303,15 +305,6 @@ const ShoppingList = ({route}) => {
               <Image source={menuIcon} style={styles.menuIcon} />
             </TouchableOpacity>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity style={styles.filterButton} onPress={toggleFilter}>
-            <Image source={filterIcon} style={styles.filterIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
-            <Image source={menuIcon} style={styles.menuIcon} />
-          </TouchableOpacity>  */}
-        
         </View>
 
         <TouchableOpacity
@@ -802,7 +795,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
-  },
+    borderWidth: 2,
+    borderColor: 'red',
+    },
   counterContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
