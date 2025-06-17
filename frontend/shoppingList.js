@@ -795,8 +795,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
-    borderWidth: 2,
-    borderColor: 'red',
     },
   counterContainer: {
     flexDirection: 'row',
