@@ -30,7 +30,7 @@ const KitchenScreen = ({ route }) => {
   const [checkedItems, setCheckedItems] = useState([]);
   const [manualItems, setManualItems] = useState([]);
   const [kitchenTitle, setKitchenTitle] = useState('My First Kitchen');
-  const [buttonStates, setButtonStates] = useState({}); // State to manage button states
+  const [buttonStates, setButtonStates] = useState({}); 
   
   const navigation = useNavigation();
 
@@ -159,7 +159,7 @@ const KitchenScreen = ({ route }) => {
   
     // Update items to be moved to the shopping list
     const updatedCheckedItems = checkedItemsToMove.map(item => ({ ...item, isChecked: false }));
-    navigation.navigate('ShoppingList', { items: updatedCheckedItems }); // Navigate with updated checked items
+    navigation.navigate('ShoppingList', { items: updatedCheckedItems }); 
   };
 
 
@@ -377,12 +377,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     backgroundColor: '#116464',
-    borderRadius: 20, // Adjust the value as needed
-    overflow: 'hidden', // Ensures border radius is applied
-    paddingVertical: 5, // Adjust the padding as needed
-    paddingHorizontal: 10, // Adjust the padding as needed
+    borderRadius: 20, 
+    overflow: 'hidden', 
+    paddingVertical: 5, 
+    paddingHorizontal: 10, 
     marginBottom: 10,
-    alignSelf: 'center', // Make the container fit the width of the text
+    alignSelf: 'center', 
   },
    searchContainer: {
     flexDirection: 'row',

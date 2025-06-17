@@ -65,12 +65,12 @@ const ShoppingList = ({route}) => {
   const [checkedItems, setCheckedItems] = useState([]);
   const [manualItems, setManualItems] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [listTitle, setListTitle] = useState('My First List'); // New state for list title
+  const [listTitle, setListTitle] = useState('My First List'); 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [showCategories, setShowCategories] = useState(true);
   const [isKitchenMoveMenuOpen, setIsKitchenMoveMenuOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); // New state for confirm modal
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); 
 
   const navigation = useNavigation();
 
@@ -783,12 +783,12 @@ const styles = StyleSheet.create({
     color:"white",
     fontSize: 15,
     backgroundColor: '#116464',
-    borderRadius: 20, // Adjust the value as needed
-    overflow: 'hidden', // Ensures border radius is applied
-    paddingVertical: 5, // Adjust the padding as needed
-    paddingHorizontal: 10, // Adjust the padding as needed
+    borderRadius: 20, 
+    overflow: 'hidden', 
+    paddingVertical: 5, 
+    paddingHorizontal: 10, 
     marginBottom: 10,
-    alignSelf: 'center', // Make the container fit the width of the text
+    alignSelf: 'center', 
   },
   counterBoxContainer: {
     backgroundColor: '#008080',
@@ -825,7 +825,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    zIndex: 1, // Ensure it's above the list
+    zIndex: 1, 
   },
   activeToggleButton: {
     opacity: 0.2, // Fully visible when active
@@ -848,10 +848,10 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   kitchenMoveBox: {
-    backgroundColor: '#ffffff', // White background for the box
-    borderRadius: 10, // Rounded corners
-    padding: 25, // Padding inside the box
-    alignItems: 'center', // Center the buttons horizontally
+    backgroundColor: '#ffffff', 
+    borderRadius: 10, 
+    padding: 25, 
+    alignItems: 'center', 
   },
   kitchenMoveContainer: {
     flex: 1,
@@ -874,8 +874,8 @@ const styles = StyleSheet.create({
   },
   kitchenMoveButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center', // Center the buttons horizontally
-    marginTop: 20, // Add margin to separate from the title
+    justifyContent: 'center', 
+    marginTop: 20, 
   },
   kitchenMoveButton: {
     paddingVertical: 10,

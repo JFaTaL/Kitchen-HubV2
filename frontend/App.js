@@ -10,7 +10,6 @@ import KitchenScreen from './kitchenScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Import your icon images
 const ShoppingTabIcon = require('./assets/cart-icon.png');
 const KitchenIcon = require('./assets/kitchenIcon.png');
 
